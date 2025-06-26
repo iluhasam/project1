@@ -50,7 +50,7 @@ export default function HeroSection() {
       <ChampagneBackground />
       
       {/* Градиентный оверлей */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-dark-900/50 to-dark-900" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-dark-900/50 to-dark-900 dark:from-transparent dark:via-black/60 dark:to-black" />
       
       {/* Основной контент */}
       <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
@@ -60,21 +60,21 @@ export default function HeroSection() {
         >
           {/* Заголовок */}
           <motion.h1
-            className="text-5xl md:text-7xl font-bold text-white mb-6"
+            className="text-5xl md:text-7xl font-bold text-white dark:text-white mb-6"
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
             <span className="gradient-text">EventVerse</span>
             <br />
-            <span className="text-3xl md:text-4xl text-gray-300">
+            <span className="text-3xl md:text-4xl text-gray-300 dark:text-gray-200">
               Кинематографичный маркетплейс мероприятий
             </span>
           </motion.h1>
 
           {/* Подзаголовок */}
           <motion.p
-            className="text-xl text-gray-400 mb-8 max-w-2xl mx-auto"
+            className="text-xl text-gray-400 dark:text-gray-300 mb-8 max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -96,7 +96,7 @@ export default function HeroSection() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Найдите фотографа, ведущего, локацию..."
-                className="w-full px-6 py-4 bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                className="w-full px-6 py-4 bg-white/10 dark:bg-black/30 backdrop-blur-lg border border-white/20 dark:border-white/30 rounded-2xl text-white dark:text-white placeholder-gray-400 dark:placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
               />
               
@@ -126,7 +126,7 @@ export default function HeroSection() {
           >
             <motion.button
               onClick={handleSearch}
-              className="group relative px-8 py-4 bg-gradient-to-r from-primary-500 to-primary-600 rounded-2xl text-white font-semibold text-lg overflow-hidden"
+              className="group relative px-8 py-4 bg-gradient-to-r from-primary-500 to-primary-600 dark:from-primary-700 dark:to-primary-900 rounded-2xl text-white font-semibold text-lg overflow-hidden"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -143,7 +143,7 @@ export default function HeroSection() {
             </motion.button>
 
             <motion.button
-              className="px-8 py-4 border-2 border-white/20 rounded-2xl text-white font-semibold text-lg hover:bg-white/10 transition-colors"
+              className="px-8 py-4 border-2 border-white/20 dark:border-white/40 rounded-2xl text-white font-semibold text-lg hover:bg-white/10 dark:hover:bg-white/20 transition-colors"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -167,8 +167,8 @@ export default function HeroSection() {
               { number: '1000+', label: 'Мероприятий' },
             ].map((stat, index) => (
               <div key={index} className="text-center">
-                <div className="text-2xl font-bold text-primary-400">{stat.number}</div>
-                <div className="text-gray-400 text-sm">{stat.label}</div>
+                <div className="text-2xl font-bold text-primary-400 dark:text-primary-300">{stat.number}</div>
+                <div className="text-gray-400 dark:text-gray-300 text-sm">{stat.label}</div>
               </div>
             ))}
           </motion.div>

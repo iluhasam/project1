@@ -3,83 +3,50 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { OrbitControls, Box, Sphere } from '@react-three/drei'
+import { OrbitControls } from '@react-three/drei'
 import * as THREE from 'three'
 
-// 3D модель зала
-function VenueModel({ scrollYProgress }: { scrollYProgress: any }) {
-  const groupRef = useRef<THREE.Group>(null)
-  const boxRef = useRef<THREE.Mesh>(null)
+// Новый компонент: светящийся икосаэдр
+function GlowingIcosahedron() {
+  const meshRef = useRef<THREE.Mesh>(null)
+  const materialRef = useRef<THREE.MeshStandardMaterial>(null)
+  
+  const colorA = new THREE.Color('#ed5aff') // фиолетовый
+  const colorB = new THREE.Color('#00e0ff') // бирюзовый
+  const colorC = new THREE.Color('#f2cc6b') // шампань
 
   useFrame((state) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.y = state.clock.elapsedTime * 0.2
-      const y = scrollYProgress.get() * 10
-      groupRef.current.position.y = y
-    }
+    if (meshRef.current && materialRef.current) {
+      const { clock } = state
+      
+      // Вращение
+      meshRef.current.rotation.x = Math.sin(clock.elapsedTime * 0.5) * 0.2
+      meshRef.current.rotation.y += 0.01
 
-    if (boxRef.current) {
-      boxRef.current.scale.x = 1 + Math.sin(state.clock.elapsedTime * 2) * 0.05
-      boxRef.current.scale.z = 1 + Math.sin(state.clock.elapsedTime * 2) * 0.05
+      // Плавная смена цвета
+      const t = (Math.sin(clock.elapsedTime * 0.7) + 1) / 2
+      const t2 = (Math.cos(clock.elapsedTime * 0.5) + 1) / 2
+      const mixedColor = colorA.clone().lerp(colorB, t).lerp(colorC, t2 * 0.3)
+      materialRef.current.color.copy(mixedColor)
+      
+      // Эффект свечения
+      materialRef.current.emissive.copy(mixedColor).multiplyScalar(0.4)
     }
   })
 
   return (
-    <group ref={groupRef}>
-      <Box ref={boxRef} args={[4, 2, 6]} position={[0, 0, 0]}>
-        <meshStandardMaterial
-          color="#4a5568"
-          transparent
-          opacity={0.8}
-          metalness={0.1}
-          roughness={0.8}
-        />
-      </Box>
-
-      <Box args={[3, 0.5, 2]} position={[0, 1.25, -2]}>
-        <meshStandardMaterial
-          color="#ed5aff"
-          emissive="#ed5aff"
-          emissiveIntensity={0.2}
-        />
-      </Box>
-
-      {[...Array(4)].map((_, i) => (
-        <Box
-          key={i}
-          args={[0.3, 3, 0.3]}
-          position={[
-            (i % 2 === 0 ? -2 : 2),
-            0.5,
-            (i < 2 ? -3 : 3)
-          ]}
-        >
-          <meshStandardMaterial
-            color="#2d3748"
-            metalness={0.3}
-            roughness={0.7}
-          />
-        </Box>
-      ))}
-
-      {[...Array(6)].map((_, i) => (
-        <Sphere
-          key={i}
-          args={[0.1, 8, 8]}
-          position={[
-            (i % 3 - 1) * 2,
-            2.5,
-            (i < 3 ? -2.5 : 2.5)
-          ]}
-        >
-          <meshStandardMaterial
-            color="#f2cc6b"
-            emissive="#f2cc6b"
-            emissiveIntensity={0.5}
-          />
-        </Sphere>
-      ))}
-    </group>
+    <mesh ref={meshRef} scale={2.5} castShadow receiveShadow>
+      <icosahedronGeometry args={[1, 1]} />
+      <meshStandardMaterial 
+        ref={materialRef}
+        color="#ed5aff"
+        metalness={0.1} 
+        roughness={0.1}
+        emissive="#ed5aff"
+        emissiveIntensity={0.8}
+        wireframe={true}
+      />
+    </mesh>
   )
 }
 
@@ -93,23 +60,23 @@ export default function ParallaxSection() {
   const y1 = useTransform(scrollYProgress, [0, 1], [0, -300])
 
   return (
-    <section ref={containerRef} className="relative h-screen bg-gradient-to-b from-dark-800 to-dark-900 overflow-hidden">
+    <section ref={containerRef} className="relative h-screen overflow-hidden bg-gradient-to-b from-dark-800 to-dark-900">
       <div className="absolute inset-0">
         <Canvas
-          camera={{ position: [0, 5, 10], fov: 60 }}
+          camera={{ position: [0, 0, 8], fov: 75 }}
           style={{ background: 'transparent' }}
         >
-          <ambientLight intensity={0.4} />
-          <pointLight position={[10, 10, 10]} intensity={1} color="#f2cc6b" />
-          <pointLight position={[-10, -10, -10]} intensity={0.5} color="#ed5aff" />
+          <ambientLight intensity={0.5} />
+          <pointLight position={[10, 10, 10]} intensity={1.5} color="#f2cc6b" />
+          <pointLight position={[-10, -10, -10]} intensity={1} color="#ed5aff" />
           
-          <VenueModel scrollYProgress={scrollYProgress} />
-          
+          <GlowingIcosahedron />
+
           <OrbitControls
             enableZoom={false}
             enablePan={false}
             autoRotate
-            autoRotateSpeed={0.5}
+            autoRotateSpeed={0.3}
           />
         </Canvas>
       </div>

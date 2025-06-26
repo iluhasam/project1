@@ -80,7 +80,7 @@ const categories = [
 
 export default function CategoriesSection() {
   return (
-    <section className="py-20 px-4 bg-gradient-to-b from-dark-900 to-dark-800">
+    <section className="py-20 px-4 bg-transparent transition-colors duration-500">
       <div className="max-w-7xl mx-auto">
         {/* Заголовок секции */}
         <motion.div
@@ -90,10 +90,10 @@ export default function CategoriesSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold text-white dark:text-white mb-6">
             Популярные <span className="gradient-text">категории</span>
           </h2>
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-400 dark:text-gray-300 max-w-3xl mx-auto">
             Выберите категорию и найдите идеального исполнителя для вашего мероприятия
           </p>
         </motion.div>
@@ -113,11 +113,11 @@ export default function CategoriesSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <p className="text-gray-400 mb-6">
+          <p className="text-gray-400 dark:text-gray-300 mb-6">
             Не нашли нужную категорию? Обратитесь к нашему консультанту
           </p>
           <motion.button
-            className="px-8 py-3 bg-gradient-to-r from-primary-500 to-primary-600 rounded-xl text-white font-semibold hover:shadow-lg transition-all"
+            className="px-8 py-3 bg-gradient-to-r from-primary-500 to-primary-600 dark:from-primary-700 dark:to-primary-900 rounded-xl text-white font-semibold hover:shadow-lg transition-all"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -147,7 +147,7 @@ function CategoryCard({ category, index }: CategoryCardProps) {
     >
       {/* 3D карточка */}
       <motion.div
-        className={`relative p-8 rounded-2xl ${category.bgColor} border ${category.borderColor} backdrop-blur-lg overflow-hidden cursor-pointer`}
+        className={`relative p-8 rounded-2xl ${category.bgColor} dark:bg-white/5 border ${category.borderColor} dark:border-white/10 backdrop-blur-lg overflow-hidden cursor-pointer transition-colors duration-300`}
         whileHover={{ 
           scale: 1.05,
           rotateY: 5,
@@ -164,23 +164,23 @@ function CategoryCard({ category, index }: CategoryCardProps) {
           whileHover={{ rotate: 360 }}
           transition={{ duration: 0.6 }}
         >
-          <IconComponent className="w-8 h-8 text-white" />
+          <IconComponent className="w-8 h-8 text-white dark:text-white" />
         </motion.div>
 
         {/* Контент */}
         <div className="relative z-10">
-          <h3 className="text-2xl font-bold text-white mb-2">{category.name}</h3>
-          <p className="text-gray-400 mb-4">{category.description}</p>
+          <h3 className="text-2xl font-bold text-white dark:text-white mb-2">{category.name}</h3>
+          <p className="text-gray-400 dark:text-gray-300 mb-4">{category.description}</p>
           
           {/* Статистика */}
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
-              <span className="text-sm text-gray-400">Исполнителей:</span>
-              <span className="text-white font-semibold">{category.count}</span>
+              <span className="text-sm text-gray-400 dark:text-gray-300">Исполнителей:</span>
+              <span className="text-white dark:text-white font-semibold">{category.count}</span>
             </div>
             <div className="flex items-center space-x-1">
               <Star className="w-4 h-4 text-yellow-400 fill-current" />
-              <span className="text-white font-semibold">{category.rating}</span>
+              <span className="text-white dark:text-white font-semibold">{category.rating}</span>
             </div>
           </div>
         </div>

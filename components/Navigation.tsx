@@ -65,20 +65,6 @@ export default function Navigation() {
 
           {/* Правая часть */}
           <div className="flex items-center space-x-4">
-            {/* Переключатель темы */}
-            <motion.button
-              onClick={toggleTheme}
-              className="p-2 rounded-lg glass-effect hover:bg-white/10 transition-colors"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              {isDark ? (
-                <Sun className="w-5 h-5 text-yellow-400" />
-              ) : (
-                <Moon className="w-5 h-5 text-blue-400" />
-              )}
-            </motion.button>
-
             {/* Кнопка входа */}
             <motion.button
               className="hidden md:block px-6 py-2 bg-gradient-to-r from-primary-500 to-primary-600 rounded-lg text-white font-medium hover:shadow-lg transition-all"

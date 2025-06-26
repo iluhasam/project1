@@ -34,7 +34,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ru">
-      <body className={inter.className}>
+      <body className={inter.className + " bg-white text-black dark:bg-black dark:text-white transition-colors duration-300"}>
         <div id="root">
           {children}
         </div>
